@@ -24,3 +24,9 @@ class MyContentErrorState extends MyContentState {}
 class MyContentEmptyState extends MyContentState {}
 
 class MyContentLoadingState extends MyContentState {}
+
+class MyContentUploadState extends MyContentState {}
+
+class MyContentUpSuccessState extends MyContentState {}
+
+class MyContentUpErrorState extends MyContentState {}

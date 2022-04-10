@@ -8,3 +8,11 @@ abstract class MyContentEvent extends Equatable {
 }
 
 class GetAllMyFotosEvent extends MyContentEvent {}
+
+class OnEditDataEvent extends MyContentEvent {
+  final Map<String, dynamic> dataToEdit;
+
+  OnEditDataEvent({required this.dataToEdit});
+  @override
+  List<Object> get props => [dataToEdit];
+}

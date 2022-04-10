@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
-import 'package:file_picker/file_picker.dart';
 
 class ItemPublic extends StatefulWidget {
   final Map<String, dynamic> publicFData;
@@ -16,8 +14,6 @@ class ItemPublic extends StatefulWidget {
 }
 
 class _ItemPublicState extends State<ItemPublic> {
-  //get http => null;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,7 +34,8 @@ class _ItemPublicState extends State<ItemPublic> {
                 child: Text("${widget.publicFData["username"].toString()[0]}"),
               ),
               title: Text("${widget.publicFData["title"]}"),
-              subtitle: Text("${widget.publicFData["publishedAt"]}"),
+              subtitle: Text(
+                  "${widget.publicFData["publishedAt"].toDate().toString().substring(0, 10)}"),
               trailing: Wrap(
                 children: [
                   IconButton(
@@ -55,9 +52,9 @@ class _ItemPublicState extends State<ItemPublic> {
                       File(path).writeAsBytesSync(bytes);
 
                       await Share.shareFiles([path],
-                          text: "${widget.publicFData["title"]}" +
-                              " " +
-                              "${widget.publicFData["publishedAt"].toDate().toString().split(" ")[0]}");
+                          text: "${widget.publicFData["title"]}, " +
+                              "Date: " +
+                              "${widget.publicFData["publishedAt"].toDate().toString().substring(0, 10)}");
                     },
                   ),
                 ],

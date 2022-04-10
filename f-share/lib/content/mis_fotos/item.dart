@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'bloc/my_content_bloc.dart';
 
 class ItemCargado extends StatefulWidget {
   final Map<String, dynamic> nonPublicFData;
@@ -54,17 +58,20 @@ class _ItemCargadoState extends State<ItemCargado> {
                                   ..text =
                                       "${widget.nonPublicFData["picture"]}",
                               ),
-                              SwitchListTile(
-                                title: Text("Publicar"),
-                                value: _defaultSwitchValue,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    _defaultSwitchValue = newValue;
-                                  });
-                                },
-                              ),
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Map<String, dynamic> fshareUpdate =
+                                        widget.nonPublicFData;
+                                    fshareUpdate["picture"] = iCont.text;
+                                    fshareUpdate["public"] =
+                                        _defaultSwitchValue;
+                                    fshareUpdate["title"] = tCont.text;
+                                    BlocProvider.of<MyContentBloc>(context).add(
+                                        OnEditDataEvent(
+                                            dataToEdit: fshareUpdate));
+
+                                    Navigator.pop(context, '');
+                                  },
                                   child: Text("Submit changes"))
                             ],
                           ),
@@ -74,8 +81,8 @@ class _ItemCargadoState extends State<ItemCargado> {
             ),
             SwitchListTile(
               title: Text("${widget.nonPublicFData["title"]}"),
-              subtitle:
-                  Text("${widget.nonPublicFData["publishedAt"].toDate()}"),
+              subtitle: Text(
+                  "${widget.nonPublicFData["publishedAt"].toDate().toString().substring(0, 10)}"),
               value: _defaultSwitchValue,
               onChanged: (newVal) {
                 setState(() {
